@@ -43,6 +43,9 @@ public class User {
     @ManyToMany
     private List<Role> roles;
 
+    @OneToOne
+    private Address address;
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;

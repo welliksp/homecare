@@ -5,6 +5,8 @@ import br.com.wsp.homecare.model.User;
 import br.com.wsp.homecare.repository.UserRepository;
 import br.com.wsp.homecare.service.IUserService;
 import br.com.wsp.homecare.util.RandomUsernameGenerator;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,15 +18,18 @@ public class UserService implements IUserService {
 
     private UserRepository repository;
 
+
+
     public UserService(UserRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public UserDto save(UserDto userDto) throws Exception {
+    public UserDto save(UserDto userDto) {
 
 
         validate(userDto.getEmail());
+        String password = passwordEncoder().encode(userDto.getPassword());
 
         String username = RandomUsernameGenerator.generateUsername(userDto.getFirstName()).toLowerCase(Locale.ROOT);
 
@@ -34,7 +39,7 @@ public class UserService implements IUserService {
                 .username(username)
                 .email(userDto.getEmail())
                 .birthdate(userDto.getBirthdate())
-                .password(userDto.getPassword())
+                .password(password)
                 .createdAt(LocalDateTime.now())
                 .build();
 
@@ -44,11 +49,16 @@ public class UserService implements IUserService {
         return new UserDto(saved);
     }
 
-    private void validate(String email) throws Exception {
+    private void validate(String email) {
 
         Optional<User> byEmail = repository.findByEmail(email);
 
         if (byEmail.isPresent())
-            throw new Exception("Usuario Existente");
+            throw new Error("Usuario Existente");
+    }
+
+    private PasswordEncoder passwordEncoder(){
+
+        return new BCryptPasswordEncoder();
     }
 }

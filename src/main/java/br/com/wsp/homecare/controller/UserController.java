@@ -24,7 +24,7 @@ public class UserController {
 
 
     @PostMapping
-    public ResponseEntity<UserDto> save(@RequestBody @Valid UserDto userDto) throws Exception {
+    public ResponseEntity<UserDto> save(@RequestBody @Valid UserDto userDto) {
 
 
         UserDto saved = service.save(userDto);

@@ -38,13 +38,13 @@ public class Address {
     @Column(name = "state", nullable = false)
     private String state;
 
-    @Column(name = "postalCode", nullable = false)
+    @Column(name = "postal_code", nullable = false)
     private String postalCode;
 
     @Column(name = "country", nullable = false)
     private String country;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
 
