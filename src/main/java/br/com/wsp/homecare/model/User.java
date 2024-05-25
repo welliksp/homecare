@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class User {
     private String email;
 
     @Column(name = "birthdate", nullable = false)
-    private String birthdate;
+    private LocalDate birthdate;
 
     @Column(name = "password", nullable = false)
     private String password;

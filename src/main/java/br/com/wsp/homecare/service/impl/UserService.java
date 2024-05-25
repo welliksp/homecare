@@ -8,6 +8,8 @@ import br.com.wsp.homecare.util.RandomUsernameGenerator;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
+import java.util.Optional;
 
 @Service
 public class UserService implements IUserService {
@@ -19,10 +21,12 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserDto save(UserDto userDto) {
+    public UserDto save(UserDto userDto) throws Exception {
 
 
-        String username = RandomUsernameGenerator.generateUsername(userDto.getFirstName());
+        validate(userDto.getEmail());
+
+        String username = RandomUsernameGenerator.generateUsername(userDto.getFirstName()).toLowerCase(Locale.ROOT);
 
         User user = User.builder()
                 .firstName(userDto.getFirstName())
@@ -38,5 +42,13 @@ public class UserService implements IUserService {
 
 
         return new UserDto(saved);
+    }
+
+    private void validate(String email) throws Exception {
+
+        Optional<User> byEmail = repository.findByEmail(email);
+
+        if (byEmail.isPresent())
+            throw new Exception("Usuario Existente");
     }
 }

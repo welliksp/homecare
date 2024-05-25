@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -25,8 +26,6 @@ public class UserDto {
     @NotEmpty
     private String lastName;
 
-    @NotNull
-    @NotEmpty
     private String username;
 
     @NotNull
@@ -34,9 +33,9 @@ public class UserDto {
     @Email
     private String email;
 
-    @NotNull
-    @NotEmpty
-    private String birthdate;
+//    @NotNull
+//    @NotEmpty
+    private LocalDate birthdate;
 
     @NotNull
     @NotEmpty
@@ -52,6 +51,7 @@ public class UserDto {
         this.username = user.getUsername();
         this.email = user.getEmail();
         this.birthdate = user.getBirthdate();
+        this.createdAt = user.getCreatedAt();
     }
 
 }

@@ -5,5 +5,5 @@ import br.com.wsp.homecare.dto.UserDto;
 
 public interface IUserService {
 
-    UserDto save(UserDto userDto);
+    UserDto save(UserDto userDto) throws Exception;
 }
